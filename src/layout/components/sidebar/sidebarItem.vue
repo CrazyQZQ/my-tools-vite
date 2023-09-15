@@ -149,6 +149,9 @@ function overflowSlice(text, item?: any) {
 }
 
 function hasOneShowingChild(children: menuType[] = [], parent: menuType) {
+  if (!children) {
+    return false;
+  }
   const showingChildren = children.filter((item: any) => {
     onlyOneChild.value = item;
     return true;

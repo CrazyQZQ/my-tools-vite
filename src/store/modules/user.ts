@@ -8,6 +8,9 @@ import { getLogin, refreshTokenApi } from "@/api/user";
 import { UserResult, RefreshTokenResult } from "@/api/user";
 import { useMultiTagsStoreHook } from "@/store/modules/multiTags";
 import { type DataInfo, setToken, removeToken, sessionKey } from "@/utils/auth";
+import { getTopMenu, initRouter } from "@/router/utils";
+import { message } from "@/utils/message";
+import { ElMessage } from "element-plus";
 
 export const useUserStore = defineStore({
   id: "pure-user",
@@ -32,9 +35,11 @@ export const useUserStore = defineStore({
       return new Promise<UserResult>((resolve, reject) => {
         getLogin(data)
           .then(data => {
-            if (data) {
+            if (data?.success) {
               setToken(data.data);
               resolve(data);
+            } else {
+              ElMessage.error(data.msg);
             }
           })
           .catch(error => {
